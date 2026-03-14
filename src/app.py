@@ -242,20 +242,20 @@ elif view == "Charts":
     if chart_type == "Bar Chart":
         sns.barplot(x=x_axis, y=y_axis, data=data, ax=ax)
         ax.set_title(f"{y_axis} vs {x_axis}", fontsize=16)
-        ax.set_xlabel(x_axis, fontsize=12)
-        ax.set_ylabel(y_axis, fontsize=12)
+        ax.set_xlabel(x_axis, fontsize=10)
+        ax.set_ylabel(y_axis, fontsize=10)
         plt.xticks(rotation=45)
     elif chart_type == "Line Chart":
         sns.lineplot(x=x_axis, y=y_axis, data=data, marker="o", ax=ax)
         ax.set_title(f"{y_axis} vs {x_axis}", fontsize=16)
-        ax.set_xlabel(x_axis, fontsize=12)
-        ax.set_ylabel(y_axis, fontsize=12)
+        ax.set_xlabel(x_axis, fontsize=10)
+        ax.set_ylabel(y_axis, fontsize=10)
         plt.xticks(rotation=45)
     elif chart_type == "Scatter Plot":
         sns.scatterplot(x=x_axis, y=y_axis, data=data, hue="heat_retention_level", palette=["green","orange","red"], s=100, ax=ax)
         ax.set_title(f"{y_axis} vs {x_axis}", fontsize=16)
-        ax.set_xlabel(x_axis, fontsize=12)
-        ax.set_ylabel(y_axis, fontsize=12)
+        ax.set_xlabel(x_axis, fontsize=10)
+        ax.set_ylabel(y_axis, fontsize=10)
         plt.xticks(rotation=45)
     elif chart_type == "Pie Chart":
         pie_col = st.selectbox("Select Column for Pie Chart:", ["heat_class", "region", "heat_retention_level"])
