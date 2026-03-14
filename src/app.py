@@ -1,3 +1,4 @@
+from folium.plugins import MarkerCluster
 import streamlit as st
 import pandas as pd
 import joblib
@@ -7,6 +8,39 @@ from streamlit_folium import st_folium
 import matplotlib.pyplot as plt
 import seaborn as sns
 import requests
+
+# ---------- LOGIN PAGE ----------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+def login_page():
+
+    st.markdown(
+        "<h2 style='text-align:center;'> <b>Login - Delhi Urban Heat Smart App </b></h2>",
+        unsafe_allow_html=True
+    )
+
+    col1, col2, col3 = st.columns([1,2,1])
+
+    with col2:
+        email = st.text_input("Email")
+        password = st.text_input("Password", type="password")
+
+        if st.button("Login", use_container_width=True):
+
+            # simple credentials
+            if email == "admin123@gmail.com" and password == "admin123":
+                st.session_state.logged_in = True
+                st.success("Login Successful!")
+                st.rerun()
+            else:
+                st.error("Invalid Email or Password")
+
+if not st.session_state.logged_in:
+    login_page()
+    st.stop()
+
+
 
 @st.cache_resource
 def load_model(path):
@@ -87,6 +121,11 @@ if st.sidebar.button("🚨 Emergency", use_container_width=True):
 
 view = st.session_state.view
 
+st.sidebar.divider()
+
+if st.sidebar.button(" Logout", use_container_width=True):
+    st.session_state.logged_in = False
+    st.rerun()
 
 
 
@@ -162,19 +201,26 @@ if view == "Prediction":
 
 
 # ---------- MAP ----------
+
 elif view == "Map":
     st.subheader("🗺 Delhi Heat Distribution")
 
     m = folium.Map(location=[28.64, 77.21], zoom_start=11)
 
+    # Create a cluster object
+    marker_cluster = MarkerCluster().add_to(m)
+
+    # Add markers to the cluster
     for _, r in data.iterrows():
         folium.CircleMarker(
-            [r["latitude"], r["longitude"]],
-            radius=10,
+            location=[r["latitude"], r["longitude"]],
+            radius=7,
             popup=f"{r['area']} | Heat Level: {r['heat_retention_level']}",
-            color=["green","orange","red"][r["heat_retention_level"]],
-            fill=True
-        ).add_to(m)
+            color=["green", "orange", "red"][r["heat_retention_level"]],
+            fill=True,
+            fill_opacity=0.7
+       ).add_to(marker_cluster)
+
 
     st_folium(m, width=1000, height=520)
 
