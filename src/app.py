@@ -237,7 +237,7 @@ elif view == "Charts":
         x_axis = st.selectbox("X-axis:", ["area", "aqi", "built_up", "green_cover", "ndvi", "lst", "day_temp", "night_temp"])
         y_axis = st.selectbox("Y-axis:", ["heat_retention_level", "day_temp", "night_temp", "aqi", "ndvi"])
 
-    fig, ax = plt.subplots(figsize=(6,3))
+    fig, ax = plt.subplots(figsize=(5,3))
 
     if chart_type == "Bar Chart":
         sns.barplot(x=x_axis, y=y_axis, data=data, ax=ax)
